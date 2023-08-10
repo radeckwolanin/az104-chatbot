@@ -24,8 +24,8 @@ MODEL = "openai"
 # For testing
 # EMBEDDING, VECTOR_STORE, MODEL = ["debug"] * 3
 
-st.set_page_config(page_title="KnowledgeGPT", page_icon="📖", layout="wide")
-st.header("📖KnowledgeGPT")
+st.set_page_config(page_title="AZ-104 Chatbot", page_icon="📖", layout="wide")
+st.header("📖 AZ-104 Chatbot")
 
 # Enable caching for expensive functions
 bootstrap_caching()
