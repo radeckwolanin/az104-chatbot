@@ -21,7 +21,7 @@ EMBEDDING = "openai"
 VECTOR_STORE = "faiss"
 MODEL = "openai"
 
-url = 'http://20.115.73.2/:8000/api/v1/heartbeat'
+url = 'http://202.115.73.2:8000/api/v1/heartbeat'
 
 # For testing
 # EMBEDDING, VECTOR_STORE, MODEL = ["debug"] * 3
@@ -46,13 +46,17 @@ if not openai_api_key:
 qa_tab, upload_tab = st.tabs(["Question & Answer", "Upload"])
 
 with qa_tab:
-    response = requests.get(url)
-    
-    if response.status_code == 200:
-        st.write(response.json())
-    else:
-        st.write('Error')
-        
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # This will raise an exception for HTTP error status codes
+
+        if response.status_code == 200:
+            st.write(response.json())
+        else:
+            st.write('Error')
+    except requests.exceptions.RequestException as e:
+        st.write('An error occurred:', e)
+                
     with st.form(key="qa_form"):
         query = st.text_area("Ask a question about the document")
         submit = st.form_submit_button("Submit")
