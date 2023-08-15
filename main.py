@@ -63,8 +63,9 @@ with qa_tab:
                 table_data.append((name, collection_id, metadata))
 
             # Display the table using st.table
-            st.write("Collections:")
-            st.table(table_data)
+            st.subheader("Available collections:")
+            table_headers = ["", "Name", "ID", "Metadata"]
+            st.table([table_headers] + table_data)
             
             
             for collection in response.json():
