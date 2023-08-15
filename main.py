@@ -93,6 +93,8 @@ with qa_tab:
                     "Source": st.column_config.CheckboxColumn(
                         "Use as source",
                         default=False,
+                        width="small",
+                        required=True,
                     )
                 },
                 disabled=["Name", "ID", "Metadata"],
