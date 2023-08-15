@@ -61,7 +61,8 @@ with qa_tab:
                 name = collection.get('name', 'N/A')
                 collection_id = collection.get('id', 'N/A')
                 metadata = collection.get('metadata', 'N/A')
-                table_data.append((name, collection_id, metadata))
+                checkmark = st.checkbox("", key=collection_id)  # Add a checkbox for each collection
+                table_data.append([checkmark, name, collection_id, metadata])
 
             # Create a DataFrame
             collections_df = pd.DataFrame(table_data, columns=["", "Name", "ID", "Metadata"])
@@ -70,11 +71,12 @@ with qa_tab:
             st.subheader("Available collections:")            
             st.table(collections_df)
             
-            
-            for collection in response.json():
-                st.write(collection.get('name'))
-                
-            st.write(response.json())
+            # Listen for checkbox changes
+            for collection in collections:
+                collection_id = collection.get('id', 'N/A')
+                checkbox_value = st.session_state[collection_id]
+                if checkbox_value:
+                    st.toast(f"Collection {collection_id} checked")
         else:
             st.error('Error')
     except requests.exceptions.RequestException as e:
