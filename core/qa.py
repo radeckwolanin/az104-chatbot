@@ -1,10 +1,10 @@
 from typing import Any, List
 from langchain.chains.qa_with_sources import load_qa_with_sources_chain
-from knowledge_gpt.core.prompts import STUFF_PROMPT
+from core.prompts import STUFF_PROMPT
 from langchain.docstore.document import Document
 from langchain.chat_models import ChatOpenAI
-from knowledge_gpt.core.embedding import FolderIndex
-from knowledge_gpt.core.debug import FakeChatModel
+from core.embedding import FolderIndex
+from core.debug import FakeChatModel
 from pydantic import BaseModel
 
 
