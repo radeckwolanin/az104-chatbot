@@ -22,7 +22,7 @@ VECTOR_STORE = "faiss"
 MODEL = "openai"
 
 # For testing
-EMBEDDING, VECTOR_STORE, MODEL = ["debug"] * 3
+# EMBEDDING, VECTOR_STORE, MODEL = ["debug"] * 3
 
 st.set_page_config(page_title="AZ-104 Chatbot", page_icon="📖", layout="wide")
 st.header("📖 AZ-104 Chatbot")
@@ -34,27 +34,46 @@ sidebar()
 
 openai_api_key = st.session_state.get("OPENAI_API_KEY")
 
-
 if not openai_api_key:
     st.warning(
         "Missing OpenAI API key in the .env file. You can get a key at"
         " https://platform.openai.com/account/api-keys."
     )
 
+# Create 2 tabs
+qa_tab, upload_tab = st.tabs(["Queastion & Answer", "Upload"])
 
-uploaded_file = st.file_uploader(
-    "Upload a pdf, docx, or txt file",
-    type=["pdf", "docx", "txt"],
-    help="Scanned documents are not supported yet!",
-)
+with qa_tab:
+    with st.form(key="qa_form"):
+        query = st.text_area("Ask a question about the document")
+        submit = st.form_submit_button("Submit")
+        
 
-if not uploaded_file:
-    st.stop()
+with upload_tab:
+    uploaded_file = st.file_uploader(
+        "Upload a pdf, docx, or txt file",
+        type=["pdf", "docx", "txt"],
+        help="Scanned documents are not supported yet!",
+    )
+    if uploaded_file is not None:
+        try:
+            file = read_file(uploaded_file)
+        except Exception as e:
+            display_file_read_error(e)
+    else:
+        st.stop()
+        
+    file = st.file_uploader("Upload Art", key="file_uploader")
+    if file is not None:
+        try:
+            img = Image.open(file)
+        except:
+            st.error("The file you uploaded does not seem to be a valid image. Try uploading a png or jpg file.")
+    if st.session_state.get("image_url") not in ["", None]:
+        st.warning("To use the file uploader, remove the image URL first.")
 
-try:
-    file = read_file(uploaded_file)
-except Exception as e:
-    display_file_read_error(e)
+
+st.stop()
 
 chunked_file = chunk_file(file, chunk_size=300, chunk_overlap=0)
 
