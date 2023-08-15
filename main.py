@@ -54,23 +54,51 @@ with qa_tab:
 
         if response.status_code == 200:
             collections = response.json()
+            
+            #collections_df = pd.DataFrame(columns=["Source", "Name", "ID", "Metadata"])
 
             # Prepare data for the table
             table_data = []
             for collection in collections:
+                checked = False
                 name = collection.get('name', 'N/A')
                 collection_id = collection.get('id', 'N/A')
                 metadata = collection.get('metadata', 'N/A')
-                checkmark = st.checkbox("", key=collection_id)  # Add a checkbox for each collection
-                table_data.append([checkmark, name, collection_id, metadata])
-
+                #checkmark = st.checkbox("", key=collection_id)  # Add a checkbox for each collection
+                #table_data.append([checkmark, name, collection_id, metadata])
+                table_data.append([checked, name, collection_id, metadata])
+                #collections_df = collections_df.append(
+                    #{
+                    #    "Source": False,
+                    #    "Name": collection.get('name', 'N/A')
+                    #    "ID": collection.get('id', 'N/A')
+                    #    "Metadata": collection.get('metadata', 'N/A')
+                    #},
+                    #collection,
+                    #ignore_index=True
+                #)
+            
             # Create a DataFrame
-            collections_df = pd.DataFrame(table_data, columns=["", "Name", "ID", "Metadata"])
+            collections_df = pd.DataFrame(table_data, columns=["Source", "Name", "ID", "Metadata"])
+            #collections_df = pd.DataFrame(table_data)
+                
 
             # Display the table using st.table
             st.subheader("Available collections:")            
             #st.table(collections_df)
-            st.dataframe(collections_df)
+            #st.dataframe(collections_df)
+            st.data_editor(
+                collections_df,
+                column_config={
+                    "Source": st.column_config.CheckboxColumn(
+                        "Use as source",
+                        default=False,
+                    )
+                },
+                disabled=["Name", "ID", "Metadata"],
+                use_container_width=True,
+                hide_index=True,
+            )
             
             # Listen for checkbox changes
             for collection in collections:
