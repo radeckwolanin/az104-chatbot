@@ -1,5 +1,6 @@
 import requests
 import streamlit as st
+import pandas as pd
 
 from components.sidebar import sidebar
 
@@ -62,10 +63,12 @@ with qa_tab:
                 metadata = collection.get('metadata', 'N/A')
                 table_data.append((name, collection_id, metadata))
 
+            # Create a DataFrame
+            collections_df = pd.DataFrame(table_data, columns=["", "Name", "ID", "Metadata"])
+
             # Display the table using st.table
-            st.subheader("Available collections:")
-            table_headers = ["", "Name", "ID", "Metadata"]
-            st.table([table_headers] + table_data)
+            st.subheader("Available collections:")            
+            st.table(collections_df)
             
             
             for collection in response.json():
