@@ -69,7 +69,8 @@ with qa_tab:
 
             # Display the table using st.table
             st.subheader("Available collections:")            
-            st.table(collections_df)
+            #st.table(collections_df)
+            st.dataframe(collections_df)
             
             # Listen for checkbox changes
             for collection in collections:
