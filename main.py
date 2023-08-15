@@ -48,6 +48,10 @@ with qa_tab:
         query = st.text_area("Ask a question about the document")
         submit = st.form_submit_button("Submit")
         
+    with st.expander("Advanced Options"):
+        return_all_chunks = st.checkbox("Show all chunks retrieved from vector search")
+        show_full_doc = st.checkbox("Show parsed contents of the document")
+        
 
 with upload_tab:
     uploaded_file = st.file_uploader(
@@ -83,14 +87,8 @@ with st.spinner("Indexing document... This may take a while⏳"):
         openai_api_key=openai_api_key,
     )
 
-with st.form(key="qa_form"):
-    query = st.text_area("Ask a question about the document")
-    submit = st.form_submit_button("Submit")
 
 
-with st.expander("Advanced Options"):
-    return_all_chunks = st.checkbox("Show all chunks retrieved from vector search")
-    show_full_doc = st.checkbox("Show parsed contents of the document")
 
 
 if show_full_doc:
