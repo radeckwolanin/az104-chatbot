@@ -100,6 +100,7 @@ with qa_tab:
                 disabled=["Name", "ID", "Metadata"],
                 use_container_width=True,
                 hide_index=True,
+                key=collections_df.get("ID")
             )
             
             # Listen for checkbox changes
