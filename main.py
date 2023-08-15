@@ -21,7 +21,8 @@ EMBEDDING = "openai"
 VECTOR_STORE = "faiss"
 MODEL = "openai"
 
-url = 'http://202.115.73.2:8000/api/v1/heartbeat'
+url = 'http://20.115.73.2:8000/api/v1/heartbeat'
+api_collections = 'http://20.115.73.2:8000/api/v1/collections'
 
 # For testing
 # EMBEDDING, VECTOR_STORE, MODEL = ["debug"] * 3
@@ -47,13 +48,31 @@ qa_tab, upload_tab = st.tabs(["Question & Answer", "Upload"])
 
 with qa_tab:
     try:
-        response = requests.get(url)
+        response = requests.get(api_collections)    # Get list of collections in ChromaDB Server
         response.raise_for_status()  # This will raise an exception for HTTP error status codes
 
         if response.status_code == 200:
+            collections = response.json()
+
+            # Prepare data for the table
+            table_data = []
+            for collection in collections:
+                name = collection.get('name', 'N/A')
+                collection_id = collection.get('id', 'N/A')
+                metadata = collection.get('metadata', 'N/A')
+                table_data.append((name, collection_id, metadata))
+
+            # Display the table using st.table
+            st.write("Collections:")
+            st.table(table_data)
+            
+            
+            for collection in response.json():
+                st.write(collection.get('name'))
+                
             st.write(response.json())
         else:
-            st.write('Error')
+            st.error('Error')
     except requests.exceptions.RequestException as e:
         st.write('An error occurred:', e)
                 
