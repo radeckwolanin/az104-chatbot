@@ -1,6 +1,6 @@
 import streamlit as st
 
-from knowledge_gpt.components.sidebar import sidebar
+from components.sidebar import sidebar
 
 from knowledge_gpt.ui import (
     wrap_doc_in_html,
@@ -22,7 +22,7 @@ VECTOR_STORE = "faiss"
 MODEL = "openai"
 
 # For testing
-# EMBEDDING, VECTOR_STORE, MODEL = ["debug"] * 3
+EMBEDDING, VECTOR_STORE, MODEL = ["debug"] * 3
 
 st.set_page_config(page_title="AZ-104 Chatbot", page_icon="📖", layout="wide")
 st.header("📖 AZ-104 Chatbot")
