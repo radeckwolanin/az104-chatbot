@@ -1,3 +1,4 @@
+import requests
 import streamlit as st
 
 from components.sidebar import sidebar
@@ -11,7 +12,6 @@ from ui import (
 )
 
 from core.caching import bootstrap_caching
-
 from core.parsing import read_file
 from core.chunking import chunk_file
 from core.embedding import embed_files
