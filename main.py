@@ -41,7 +41,7 @@ if not openai_api_key:
     )
 
 # Create 2 tabs
-qa_tab, upload_tab = st.tabs(["Queastion & Answer", "Upload"])
+qa_tab, upload_tab = st.tabs(["Question & Answer", "Upload"])
 
 with qa_tab:
     with st.form(key="qa_form"):
@@ -61,17 +61,8 @@ with upload_tab:
         except Exception as e:
             display_file_read_error(e)
     else:
+        st.warning("File queue empty.")
         st.stop()
-        
-    file = st.file_uploader("Upload Art", key="file_uploader")
-    if file is not None:
-        try:
-            img = Image.open(file)
-        except:
-            st.error("The file you uploaded does not seem to be a valid image. Try uploading a png or jpg file.")
-    if st.session_state.get("image_url") not in ["", None]:
-        st.warning("To use the file uploader, remove the image URL first.")
-
 
 st.stop()
 
