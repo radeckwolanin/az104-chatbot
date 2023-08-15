@@ -2,7 +2,7 @@ import streamlit as st
 
 from components.sidebar import sidebar
 
-from knowledge_gpt.ui import (
+from ui import (
     wrap_doc_in_html,
     is_query_valid,
     is_file_valid,
@@ -10,12 +10,12 @@ from knowledge_gpt.ui import (
     display_file_read_error,
 )
 
-from knowledge_gpt.core.caching import bootstrap_caching
+from core.caching import bootstrap_caching
 
-from knowledge_gpt.core.parsing import read_file
-from knowledge_gpt.core.chunking import chunk_file
-from knowledge_gpt.core.embedding import embed_files
-from knowledge_gpt.core.qa import query_folder
+from core.parsing import read_file
+from core.chunking import chunk_file
+from core.embedding import embed_files
+from core.qa import query_folder
 
 EMBEDDING = "openai"
 VECTOR_STORE = "faiss"
@@ -37,7 +37,7 @@ openai_api_key = st.session_state.get("OPENAI_API_KEY")
 
 if not openai_api_key:
     st.warning(
-        "Enter your OpenAI API key in the sidebar. You can get a key at"
+        "Missing OpenAI API key in the .env file. You can get a key at"
         " https://platform.openai.com/account/api-keys."
     )
 
