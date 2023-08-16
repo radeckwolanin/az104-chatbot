@@ -16,6 +16,7 @@ from core.caching import bootstrap_caching
 from core.parsing import read_file
 from core.chunking import chunk_file
 from core.embedding import embed_files
+from core.embedding import get_vectorstore
 from core.qa import query_folder
 
 EMBEDDING = "openai"
@@ -69,7 +70,7 @@ with qa_tab:
         # Output Columns
         answer_col, sources_col = st.columns(2)
         
-        #folder_index = 
+        folder_index = get_vectorstore("temp_name")
 
         result = query_folder(
             folder_index=folder_index,
