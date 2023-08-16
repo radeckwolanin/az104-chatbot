@@ -48,6 +48,18 @@ class FolderIndex:
         )
 
         return cls(files=files, index=index)
+    
+    @classmethod
+    def from_chromadb(cls) -> "FolderIndex":
+        """Creates an ChromaDB client."""
+        
+        client = chromadb.HttpClient(host="20.115.73.2", port=8000)
+
+        index = Chroma(
+            client=client,
+        )
+
+        return cls(files=None, index=index)
 
 
 def embed_files(
@@ -78,3 +90,11 @@ def embed_files(
     return FolderIndex.from_files(
         files=files, embeddings=_embeddings, vector_store=_vector_store
     )
+    
+def get_vectorstore(
+    vector_store: str, **kwargs
+) -> FolderIndex:
+    """Return FolderIndex as ChromaDB client"""
+    
+    return FolderIndex.from_chromadb()
+    

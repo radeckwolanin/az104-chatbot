@@ -68,6 +68,8 @@ with qa_tab:
 
         # Output Columns
         answer_col, sources_col = st.columns(2)
+        
+        #folder_index = 
 
         result = query_folder(
             folder_index=folder_index,
