@@ -87,7 +87,7 @@ with qa_tab:
             st.subheader("Available collections:")            
             #st.table(collections_df)
             #st.dataframe(collections_df)
-            st.data_editor(
+            edited_df = st.data_editor(
                 collections_df,
                 column_config={
                     "Source": st.column_config.CheckboxColumn(
@@ -100,15 +100,18 @@ with qa_tab:
                 disabled=["Name", "ID", "Metadata"],
                 use_container_width=True,
                 hide_index=True,
-                key=collections_df.get("ID")
             )
             
+            sources = edited_df.loc[edited_df["Source"],"ID"]
+            st.markdown(f"Sources selected **{sources}** 🎈")
+        
             # Listen for checkbox changes
-            for collection in collections:
-                collection_id = collection.get('id', 'N/A')
-                checkbox_value = st.session_state[collection_id]
-                if checkbox_value:
-                    st.toast(f"Collection {collection_id} checked")
+            for source in sources:
+                st.toast(f"CollectionX {source} checked")
+            #    collection_id = collection.get('id', 'N/A')
+            #    checkbox_value = st.session_state[collection_id]
+            #    if checkbox_value:
+            #        st.toast(f"Collection {collection_id} checked")
         else:
             st.error('Error')
     except requests.exceptions.RequestException as e:
