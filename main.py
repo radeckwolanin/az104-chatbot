@@ -164,8 +164,7 @@ with upload_tab:
                 vector_store=VECTOR_STORE,
                 openai_api_key=openai_api_key,
             )
-    else:
-        st.warning("File queue empty.")
+    else:        
         st.stop()
 
 
