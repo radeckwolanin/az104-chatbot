@@ -19,7 +19,7 @@ from core.embedding import embed_files
 from core.qa import query_folder
 
 EMBEDDING = "openai"
-VECTOR_STORE = "faiss"
+VECTOR_STORE = "chromadb" # faiss
 MODEL = "openai"
 
 url = 'http://20.115.73.2:8000/api/v1/heartbeat'

@@ -1,6 +1,8 @@
 from langchain.vectorstores import VectorStore
 from core.parsing import File
 from langchain.vectorstores.faiss import FAISS
+from langchain.vectorstores import Chroma
+import chromadb
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.embeddings.base import Embeddings
 from typing import List, Type
@@ -36,10 +38,13 @@ class FolderIndex:
         """Creates an index from files."""
 
         all_docs = cls._combine_files(files)
+        
+        client = chromadb.HttpClient(host="20.115.73.2", port=8000)
 
         index = vector_store.from_documents(
             documents=all_docs,
             embedding=embeddings,
+            client=client,
         )
 
         return cls(files=files, index=index)
@@ -56,6 +61,7 @@ def embed_files(
     }
     supported_vector_stores: dict[str, Type[VectorStore]] = {
         "faiss": FAISS,
+        "chromadb": Chroma,
         "debug": FakeVectorStore,
     }
 
