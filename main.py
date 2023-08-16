@@ -103,15 +103,12 @@ with qa_tab:
             )
             
             sources = edited_df.loc[edited_df["Source"],"ID"]
-            st.markdown(f"Sources selected **{sources}** 🎈")
         
             # Listen for checkbox changes
             for source in sources:
-                st.toast(f"CollectionX {source} checked")
-            #    collection_id = collection.get('id', 'N/A')
-            #    checkbox_value = st.session_state[collection_id]
-            #    if checkbox_value:
-            #        st.toast(f"Collection {collection_id} checked")
+                st.markdown(f"Source **{source}**")
+                st.toast(f"ID {source} checked")
+                
         else:
             st.error('Error')
     except requests.exceptions.RequestException as e:
