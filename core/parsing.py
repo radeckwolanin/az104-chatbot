@@ -18,7 +18,7 @@ class File(ABC):
         self,
         name: str,
         id: str,
-        metadata: Optional[dict[str, Any]] = None,
+        metadata: Optional['dict[str, Any]'] = None,
         docs: Optional[List[Document]] = None,
     ):
         self.name = name
