@@ -36,14 +36,16 @@ class FolderIndex:
     def from_files(
         cls, files: List[File], embeddings: Embeddings, vector_store: Type[VectorStore]
     ) -> "FolderIndex":
-        """Creates an index from files."""
+        """
+            Creates an index from files.
+            TODO: Use HOST and other info from variable, not hard coded
+        """
 
         all_docs = cls._combine_files(files)
         
         client = chromadb.HttpClient(host="20.115.73.2", port=8000)
         
-        #collection = client.create_collection("my_collectionX")
-        collection = client.get_or_create_collection("my_collectionX")
+        collection = client.get_or_create_collection("from_files_collection")
         
         for doc in all_docs:
             collection.add(
@@ -52,7 +54,7 @@ class FolderIndex:
                 metadatas=doc.metadata, 
                 documents=doc.page_content
             )
-        index = Chroma(client=client, collection_name="my_collectionX")
+        index = Chroma(client=client, collection_name="from_files_collection")
         """
         index = vector_store.from_documents(
             documents=all_docs,
