@@ -104,6 +104,9 @@ with upload_tab:
             # Prepare data for the table
             table_data = []
             for collection in collections:
+                #try
+                collecion_count = requests.get(api_collections+'/'+collection.get('id', 'N/A')+'/count').json()
+                print(collecion_count)
                 checked = False
                 name = collection.get('name', 'N/A')
                 collection_id = collection.get('id', 'N/A')

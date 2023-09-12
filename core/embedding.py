@@ -3,6 +3,7 @@ from core.parsing import File
 from langchain.vectorstores.faiss import FAISS
 from langchain.vectorstores import Chroma
 import chromadb
+import uuid
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.embeddings.base import Embeddings
 from typing import List, Type
@@ -40,12 +41,26 @@ class FolderIndex:
         all_docs = cls._combine_files(files)
         
         client = chromadb.HttpClient(host="20.115.73.2", port=8000)
-
+        
+        #collection = client.create_collection("my_collectionX")
+        collection = client.get_or_create_collection("my_collectionX")
+        
+        for doc in all_docs:
+            collection.add(
+                ids=[str(uuid.uuid1())], 
+                embeddings=[embeddings.embed_documents(doc.page_content)],
+                metadatas=doc.metadata, 
+                documents=doc.page_content
+            )
+        index = Chroma(client=client, collection_name="my_collectionX")
+        """
         index = vector_store.from_documents(
             documents=all_docs,
             embedding=embeddings,
             client=client,
+            collection_name="from_file_collection"
         )
+        """
 
         return cls(files=files, index=index)
     
