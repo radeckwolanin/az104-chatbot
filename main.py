@@ -2,6 +2,10 @@ import requests
 import streamlit as st
 import pandas as pd
 
+from langchain.chains import RetrievalQA
+from langchain.llms import OpenAI
+from langchain.embeddings import OpenAIEmbeddings
+
 from components.sidebar import sidebar
 
 from ui import (
@@ -172,6 +176,14 @@ with upload_tab:
         if folder_index:
             st.write("Folder index does exists!")
             print(folder_index)
+            qa = RetrievalQA.from_chain_type(
+                llm=OpenAI(), 
+                chain_type="stuff", 
+                retriever=folder_index.index.as_retriever()
+            )
+            query = "What is AZURE RBAC and AZURE storage solutons?"
+            qa.run(query)
+            st.write("Folder index does exists!")
     else:        
         st.stop()
 

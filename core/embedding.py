@@ -47,7 +47,6 @@ class FolderIndex:
         client = chromadb.HttpClient(host="20.115.73.2", port=8000)
         
         openai_ef = embedding_functions.OpenAIEmbeddingFunction(
-            #api_key="YOUR_API_KEY",
             model_name="text-embedding-ada-002"
         )
         
@@ -55,36 +54,19 @@ class FolderIndex:
             name="from_files_collection", 
             embedding_function=openai_ef
         )
-        
-        #embeds = embeddings.embed_documents(all_docs[0].page_content)
-        #print(len(embeds)) 1529
-        #print('\n\n')
-        
+                
         for doc in all_docs:
-            #embeds = embeddings.embed_documents(doc.page_content)
             collection.add(
                 ids=[str(uuid.uuid1())], 
-                #embeddings=[embeddings.embed_documents(doc.page_content)],
-                #embeddings=[embeds],
-                #embeddings=embeddings,
-                #embeddings=embeds,
                 metadatas=doc.metadata, 
                 documents=doc.page_content
             )
-           
+            
         index = Chroma(
-            client=client, 
-            collection_name="from_files_collection",
-            #embedding_function=openai_ef
-        )
-        """
-        index = vector_store.from_documents(
-            documents=all_docs,
-            embedding=embeddings,
             client=client,
-            collection_name="from_file_collection"
+            collection_name="from_files_collection",
+            embedding_function=OpenAIEmbeddings()
         )
-        """
 
         return cls(files=files, index=index)
     
@@ -93,9 +75,11 @@ class FolderIndex:
         """Creates an ChromaDB client."""
         
         client = chromadb.HttpClient(host="20.115.73.2", port=8000)
-
+        
         index = Chroma(
             client=client,
+            collection_name="from_files_collection",
+            embedding_function=OpenAIEmbeddings()
         )
 
         return cls(files=None, index=index)
