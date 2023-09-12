@@ -103,18 +103,16 @@ with upload_tab:
             
             # Prepare data for the table
             table_data = []
-            for collection in collections:
-                #try
-                collecion_count = requests.get(api_collections+'/'+collection.get('id', 'N/A')+'/count').json()
-                print(collecion_count)
+            for collection in collections:                
                 checked = False
                 name = collection.get('name', 'N/A')
                 collection_id = collection.get('id', 'N/A')
+                collecion_count = requests.get(api_collections+'/'+collection_id+'/count').json()
                 metadata = collection.get('metadata', 'N/A')
-                table_data.append([checked, name, collection_id, metadata])
+                table_data.append([checked, name, collection_id, collecion_count, metadata])
             
             # Create a DataFrame
-            collections_df = pd.DataFrame(table_data, columns=["Source", "Name", "ID", "Metadata"])
+            collections_df = pd.DataFrame(table_data, columns=["Source", "Name", "ID", "Count", "Metadata"])
             
             st.subheader("Available collections:")
             edited_df = st.data_editor(
@@ -127,7 +125,7 @@ with upload_tab:
                         required=True,
                     )
                 },
-                disabled=["Name", "ID", "Metadata"],
+                disabled=["Name", "ID", "Count", "Metadata"],
                 use_container_width=True,
                 hide_index=True,
             )
