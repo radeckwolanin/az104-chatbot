@@ -168,6 +168,9 @@ with upload_tab:
                 vector_store=VECTOR_STORE,
                 openai_api_key=openai_api_key,
             )
+            
+        if not folder_index:
+            st.write("Folder index does not exists!")
     else:        
         st.stop()
 
