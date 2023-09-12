@@ -169,8 +169,9 @@ with upload_tab:
                 openai_api_key=openai_api_key,
             )
             
-        if not folder_index:
-            st.write("Folder index does not exists!")
+        if folder_index:
+            st.write("Folder index does exists!")
+            print(folder_index)
     else:        
         st.stop()
 

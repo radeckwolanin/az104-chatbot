@@ -75,7 +75,7 @@ class FolderIndex:
         index = Chroma(
             client=client, 
             collection_name="from_files_collection",
-            embedding_function=openai_ef
+            #embedding_function=openai_ef
         )
         """
         index = vector_store.from_documents(
