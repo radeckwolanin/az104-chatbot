@@ -26,3 +26,10 @@ if prompt := st.chat_input("For example: What are main types of Azure storage so
     # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
     
+    response = f"Echo: {prompt}"
+    # Display assistant response in chat message container
+    with st.chat_message("assistant"):
+        st.markdown(response)
+    # Add assistant response to chat history
+    st.session_state.messages.append({"role": "assistant", "content": response})
+    
