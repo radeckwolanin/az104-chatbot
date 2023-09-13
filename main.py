@@ -91,9 +91,10 @@ with qa_tab:
         
 with chat_bot_tab:
     with st.chat_message("assistant"):
-        st.write("Hello👋 Ask me anything related to Azure cloud administration.",
-                 "For example: What are main types of Azure storage solutions?")
-        
+        st.write("Hello👋 Ask me anything related to Azure cloud administration.")
+        prompt = st.chat_input("For example: What are main types of Azure storage solutions?")
+        if prompt:
+            st.write(f"User has sent the following prompt: {prompt}")
 
 with upload_tab:    
     try:
