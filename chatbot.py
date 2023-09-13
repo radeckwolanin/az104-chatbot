@@ -1,10 +1,29 @@
+import os
 import streamlit as st
+
 from components.sidebar import sidebar
+from core.embedding import get_vectorstore
+from core.qa import query_folder
+
+EMBEDDING = "openai"
+VECTOR_STORE = "chromadb" # faiss
+MODEL = "openai"
+
+if "OPENAI_API_KEY" not in st.session_state:
+    st.session_state.OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
+    
+openai_api_key = st.session_state.get("OPENAI_API_KEY")
 
 st.set_page_config(page_title="AZ-104 Chatbot", page_icon="📖", layout="wide")
 st.header("📖 AZ-104 Chatbot")
 
 sidebar()
+
+if not openai_api_key:
+    st.warning(
+        "Missing OpenAI API key in the .env file. You can get a key at"
+        " https://platform.openai.com/account/api-keys."
+    )
 
 # Initialize chat history
 if "messages" not in st.session_state:
@@ -20,16 +39,30 @@ with st.chat_message("assistant"):
     
 # React to user input
 if prompt := st.chat_input("For example: What are main types of Azure storage solutions?"):
+    
     # Display user message in chat message container
     with st.chat_message("user"):
         st.markdown(prompt)
+        
     # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
     
     response = f"Echo: {prompt}"
     # Display assistant response in chat message container
     with st.chat_message("assistant"):
-        st.markdown(response)
+        
+        folder_index = get_vectorstore("temp_name")
+
+        result = query_folder(
+            folder_index=folder_index,
+            query=prompt,
+            model=MODEL,
+            openai_api_key=openai_api_key,
+            temperature=0,
+        )
+        
+        st.markdown(result.answer)
+        
     # Add assistant response to chat history
-    st.session_state.messages.append({"role": "assistant", "content": response})
+    st.session_state.messages.append({"role": "assistant", "content": result.answer})
     

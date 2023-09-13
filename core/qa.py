@@ -24,8 +24,6 @@ def query_folder(
     Args:
         query (str): The query to search for.
         folder_index (FolderIndex): The folder index to search.
-        return_all (bool): Whether to return all the documents from the embedding or
-        just the sources for the answer.
         model (str): The model to use for the answer generation.
         **model_kwargs (Any): Keyword arguments for the model.
 
