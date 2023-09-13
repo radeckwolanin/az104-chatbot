@@ -58,10 +58,6 @@ with qa_tab:
         query = st.text_area("Ask a question about the document")
         show_sources = st.checkbox("Show used sources retrieved from vector db", value=True)
         submit = st.form_submit_button("Submit")
-    
-    #with st.expander("Advanced Options"):
-    #    return_all_chunks = st.checkbox("Show all chunks retrieved from vector search")
-    #    show_full_doc = st.checkbox("Show parsed contents of the document")
         
     if submit:
         if not is_query_valid(query):
@@ -85,6 +81,8 @@ with qa_tab:
             st.markdown(result.answer)
 
         with sources_col:
+            if not show_sources:
+                st.stop()
             st.markdown("#### Sources")
             for source in result.sources:
                 st.markdown(source.page_content)
