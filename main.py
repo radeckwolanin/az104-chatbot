@@ -50,7 +50,7 @@ if not openai_api_key:
     )
 
 # Create 2 tabs
-qa_tab, upload_tab = st.tabs(["Question & Answer", "Upload"])
+qa_tab, chat_bot_tab, upload_tab = st.tabs(["Question & Answer", "Chat Bot", "Upload"])
 
 with qa_tab:
                     
@@ -88,6 +88,11 @@ with qa_tab:
                 st.markdown(source.page_content)
                 st.markdown(source.metadata["source"])
                 st.markdown("---")
+        
+with chat_bot_tab:
+    with st.chat_message("assistant"):
+        st.write("Hello👋 Ask me anything related to Azure cloud administration.",
+                 "For example: What are main types of Azure storage solutions?")
         
 
 with upload_tab:    
