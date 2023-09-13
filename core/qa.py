@@ -16,7 +16,6 @@ class AnswerWithSources(BaseModel):
 def query_folder(
     query: str,
     folder_index: FolderIndex,
-    return_all: bool = False,
     model: str = "openai",
     **model_kwargs: Any,
 ) -> AnswerWithSources:
@@ -56,23 +55,8 @@ def query_folder(
     )
     sources = relevant_docs
 
-    if not return_all:
-        sources = get_sources(result["output_text"], folder_index)
-
     answer = result["output_text"].split("SOURCES: ")[0]
 
     return AnswerWithSources(answer=answer, sources=sources)
 
 
-def get_sources(answer: str, folder_index: FolderIndex) -> List[Document]:
-    """Retrieves the docs that were used to answer the question the generated answer."""
-
-    source_keys = [s for s in answer.split("SOURCES: ")[-1].split(", ")]
-
-    source_docs = []
-    for file in folder_index.files:
-        for doc in file.docs:
-            if doc.metadata["source"] in source_keys:
-                source_docs.append(doc)
-
-    return source_docs
