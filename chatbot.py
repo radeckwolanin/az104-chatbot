@@ -8,8 +8,12 @@ from core.qa import query_folder
 EMBEDDING = "openai"
 VECTOR_STORE = "chromadb" # faiss
 MODEL = "openai"
+LANGCHAIN_TRACING_V2 = True
+LANGCHAIN_ENDPOINT = "https://api.smith.langchain.com"
+LANGCHAIN_API_KEY = "ls__7fe96d9dfa664e99ad0e78c2f9302178"
+LANGCHAIN_PROJECT = "az104-chatbot"
 
-if "OPENAI_API_KEY" not in st.session_state:
+if "OPENAI_API_KEY" not in st.session_state: 
     st.session_state.OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
     
 openai_api_key = st.session_state.get("OPENAI_API_KEY")
